@@ -571,7 +571,6 @@ a:hover { color: #ffd700; }
 
     // دالة لإنهاء الخطوة بنجاح وتفعيل ما يليها
     function finishStep(step) {
-      closeCustomAlert();
         const stepElement = document.getElementById("step" + step);
         const check = document.getElementById("check" + step);
 
@@ -594,93 +593,131 @@ a:hover { color: #ffd700; }
     }
 
     function completeStep(step, url = null) {
-      const stepElement = document.getElementById("step" + step);
-      const check = document.getElementById("check" + step);
+  const stepElement = document.getElementById("step" + step);
+  const check = document.getElementById("check" + step);
 
-      // دالة مساعدة لفتح الرابط
-      const openLink = () => {
-         if (step === 3) {
-            const selected = step3Links[Math.floor(Math.random() * step3Links.length)];
-            window.open(selected, "_blank");
-         } else if (url) {
-            window.open(url, "_blank");
-         }
-      };
-      
-      if (stepElement.classList.contains("completed")) {
-          openLink();
-          return;
-      }
+  // دالة مساعدة لفتح الرابط
+  const openLink = () => {
+     if (step === 3) {
+        const selected = step3Links[Math.floor(Math.random() * step3Links.length)];
+        window.open(selected, "_blank");
+     } else if (url) {
+        window.open(url, "_blank");
+     }
+  };
 
-      if (activeVerifications[step]) {
-          openLink();
-          return;
-      }
-
+  if (stepElement.classList.contains("completed")) {
       openLink();
+      return;
+  }
 
-      activeVerifications[step] = true;
-      const timeAtClick = Date.now();
-      check.innerHTML = '<span class="loading"></span>';
+  if (activeVerifications[step]) {
+      openLink();
+      return;
+  }
 
-      // --- هنا تم الفصل بين الخطوات ---
-      let config = {
-        required: 0, 
-        blocking: 0, 
-        msg: ""      
-      };
+  openLink();
 
-      if (step === 1) { // اشتراك القناة الأولى
-        config.required = 8;
-        config.blocking = 4;
-        config.msg = "⚠️ عذراً، يجب عليك الاشتراك في القناة 1 وتفعيل الجرس لكي يتم تنفيذ الشرط.\n" +
-             "ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــ\n" +
-             "💡ملحوظة:\n" +
-             "اذا كنت بالفعل مشترك في القناة 1 , فقط قم بالضغط علي الزر مجددا ومن ثم قم بالانتظار 6 ثواني ومن ثم ارجع لصفحة الشروط مجددا.";
-      } 
-      else if (step === 2) { // مشاهدة الفيديو
-        config.required = 35; 
-        config.blocking = 8;
-        config.msg = "عذراً، يجب عليك مشاهدة الفيديو كاملاً أولاً لكي يتم تنفيذ الشرط.";
-      } 
-      else if (step === 3) { // لايك وتعليق
-        config.required = 12;
-        config.blocking = 7;
-        config.msg = "عذراً، يجب عليك عمل لايك وتعليق مميز أولاً لكي يتم تنفيذ الشرط.";
-      }
-      else if (step === 4) { // اشتراك القناة الثانية
-        config.required = 8;
-        config.blocking = 4;
-        config.msg = "⚠️ عذراً، يجب عليك الاشتراك في القناة 2 وتفعيل الجرس لكي يتم تنفيذ الشرط.\n" +
-             "ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــ\n" +
-             "💡ملحوظة:\n" +
-             "اذا كنت بالفعل مشترك في القناة 2 , فقط قم بالضغط علي الزر مجددا ومن ثم قم بالانتظار 6 ثواني ومن ثم ارجع لصفحة الشروط مجددا.";
-      }
-      // ------------------------------------
+  activeVerifications[step] = true;
+  const timeAtClick = Date.now();
+  check.innerHTML = '<span class="loading"></span>';
 
-      const onFocusVerify = () => {
-        window.removeEventListener('focus', onFocusVerify);
-        
-        const elapsedSeconds = (Date.now() - timeAtClick) / 1000;
+  // --- هنا تم الفصل بين الخطوات ---
+  let config = {
+    required: 0, 
+    blocking: 0, 
+    msg: ""      
+  };
 
-        if (elapsedSeconds < config.blocking) {
-            showCustomAlert(config.msg);
-            check.innerText = "➡️"; 
-            activeVerifications[step] = false; 
-        } 
-        else if (elapsedSeconds < config.required) {
-            const remainingTimeMs = (config.required - elapsedSeconds) * 1000;
-            setTimeout(() => {
-                finishStep(step);
-            }, remainingTimeMs);
-        } 
-        else {
-            finishStep(step);
-        }
-      };
+  if (step === 1) { // اشتراك القناة الأولى
+    config.required = 8;
+    config.blocking = 4;
+    config.msg = "⚠️ عذراً، يجب عليك الاشتراك في القناة 1 وتفعيل الجرس لكي يتم تنفيذ الشرط.\n" +
+         "ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــ\n" +
+         "💡ملحوظة:\n" +
+         "اذا كنت بالفعل مشترك في القناة 1 , فقط قم بالضغط علي الزر مجددا ومن ثم قم بالانتظار 6 ثواني ومن ثم ارجع لصفحة الشروط مجددا.";
+  } 
+  else if (step === 2) { // مشاهدة الفيديو
+    config.required = 35; 
+    config.blocking = 8;
+    config.msg = "عذراً، يجب عليك مشاهدة الفيديو كاملاً أولاً لكي يتم تنفيذ الشرط.";
+  } 
+  else if (step === 3) { // لايك وتعليق
+    config.required = 12;
+    config.blocking = 7;
+    config.msg = "عذراً، يجب عليك عمل لايك وتعليق مميز أولاً لكي يتم تنفيذ الشرط.";
+  }
+  else if (step === 4) { // اشتراك القناة الثانية
+    config.required = 8;
+    config.blocking = 4;
+    config.msg = "⚠️ عذراً، يجب عليك الاشتراك في القناة 2 وتفعيل الجرس لكي يتم تنفيذ الشرط.\n" +
+         "ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــ\n" +
+         "💡ملحوظة:\n" +
+         "اذا كنت بالفعل مشترك في القناة 2 , فقط قم بالضغط علي الزر مجددا ومن ثم قم بالانتظار 6 ثواني ومن ثم ارجع لصفحة الشروط مجددا.";
+  }
+  // ------------------------------------
 
-      window.addEventListener('focus', onFocusVerify);
+  // حماية ضد النداءات المزدوجة
+  let finished = false;
+  let finishTimer = null;
+  let fallbackTimer = null;
+
+  const cleanup = () => {
+    if (finished) return;
+    finished = true;
+    activeVerifications[step] = false;
+    window.removeEventListener('focus', onFocusVerify);
+    document.removeEventListener('visibilitychange', onVisibilityVerify);
+    if (finishTimer) { clearTimeout(finishTimer); finishTimer = null; }
+    if (fallbackTimer) { clearTimeout(fallbackTimer); fallbackTimer = null; }
+  };
+
+  const handleProc = (elapsedSeconds) => {
+    if (elapsedSeconds < config.blocking) {
+      showCustomAlert(config.msg);
+      check.innerText = "➡️";
+      cleanup();
+    } else if (elapsedSeconds < config.required) {
+      const remainingMs = (config.required - elapsedSeconds) * 1000;
+      // ننتظر بقيّة الزمن ثم نكمل
+      finishTimer = setTimeout(() => {
+        finishStep(step);
+        cleanup();
+      }, remainingMs + 50);
+    } else {
+      finishStep(step);
+      cleanup();
     }
+  };
+
+  const onFocusVerify = () => {
+    try {
+      const elapsedSeconds = (Date.now() - timeAtClick) / 1000;
+      handleProc(elapsedSeconds);
+    } catch (e) { cleanup(); }
+  };
+
+  const onVisibilityVerify = () => {
+    try {
+      if (!document.hidden) {
+        const elapsedSeconds = (Date.now() - timeAtClick) / 1000;
+        handleProc(elapsedSeconds);
+      }
+    } catch (e) { cleanup(); }
+  };
+
+  window.addEventListener('focus', onFocusVerify);
+  document.addEventListener('visibilitychange', onVisibilityVerify);
+
+  // فاليباك: إذا لم يرجع المستخدم ولم تُطلق أي أحداث، نكمل تلقائياً بعد required ثانية + هامش صغير
+  fallbackTimer = setTimeout(() => {
+    if (!finished) {
+      finishStep(step);
+      cleanup();
+    }
+  }, (config.required + 0.5) * 1000);
+}
+
 
     function unlockButtons(){
       const allCompleted = [1,2,3,4].every(i => {
