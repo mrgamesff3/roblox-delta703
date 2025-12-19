@@ -561,9 +561,18 @@ a:hover { color: #ffd700; }
     let activeVerifications = {};
 
     function showCustomAlert(message) {
-        document.getElementById("customAlertMsg").innerText = message;
-        document.getElementById("customAlert").classList.add("show");
-    }
+    const overlay = document.getElementById("customAlert");
+    document.getElementById("customAlertMsg").innerText = message;
+    overlay.classList.add("show");
+
+    // إغلاق تلقائي مضمون
+    if (overlay._autoHide) clearTimeout(overlay._autoHide);
+    overlay._autoHide = setTimeout(() => {
+        overlay.classList.remove("show");
+        overlay._autoHide = null;
+    }, 3000);
+}
+
 
     function closeCustomAlert() {
         document.getElementById("customAlert").classList.remove("show");
@@ -620,14 +629,6 @@ a:hover { color: #ffd700; }
 
       activeVerifications[step] = true;
       const timeAtClick = Date.now();
-      // === الحل الجذري للموبايل والكمبيوتر ===
-setTimeout(() => {
-    // لو الخطوة ما زالت غير مكتملة
-    if (!document.getElementById("step" + step).classList.contains("completed")) {
-        finishStep(step);
-    }
-}, config.required * 1000);
-
       check.innerHTML = '<span class="loading"></span>';
 
       // --- هنا تم الفصل بين الخطوات ---
