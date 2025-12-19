@@ -21,7 +21,6 @@ body {
   overflow-x: hidden;
   padding: 20px 0;
   position: relative;
-  /* منع تحديد النص بشكل عام لتحسين تجربة التطبيق */
   -webkit-tap-highlight-color: transparent; 
 }
 
@@ -152,7 +151,7 @@ h2 {
   font-size: 17px;
   position: relative;
   overflow: hidden;
-  cursor: pointer; /* مهم للكمبيوتر */
+  cursor: pointer;
 }
 
 .step::before {
@@ -538,49 +537,44 @@ a:hover { color: #ffd700; }
       const timeAtClick = Date.now();
       check.innerHTML = '<span class="loading"></span>';
 
-      // --- هنا تم الفصل بين الخطوات ---
       let config = {
         required: 0, 
         blocking: 0, 
         msg: ""      
       };
 
-      if (step === 1) { // اشتراك القناة الأولى
+      if (step === 1) { 
         config.required = 8;
         config.blocking = 4;
         config.msg = "⚠️ عذراً، يجب عليك الاشتراك في القناة 1 وتفعيل الجرس لكي يتم تنفيذ الشرط.\n" +
-             "ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــ\n" +
-             "💡ملحوظة:\n" +
-             "اذا كنت بالفعل مشترك في القناة 1 , فقط قم بالضغط علي الزر مجددا ومن ثم قم بالانتظار 6 ثواني ومن ثم ارجع لصفحة الشروط مجددا.";
+                     "ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــ\n" +
+                     "💡ملحوظة:\n" +
+                     "اذا كنت بالفعل مشترك في القناة 1 , فقط قم بالضغط علي الزر مجددا ومن ثم قم بالانتظار 6 ثواني ومن ثم ارجع لصفحة الشروط مجددا.";
       } 
-      else if (step === 2) { // مشاهدة الفيديو
+      else if (step === 2) { 
         config.required = 35; 
         config.blocking = 8;
         config.msg = "عذراً، يجب عليك مشاهدة الفيديو كاملاً أولاً لكي يتم تنفيذ الشرط.";
       } 
-      else if (step === 3) { // لايك وتعليق
+      else if (step === 3) { 
         config.required = 12;
         config.blocking = 7;
         config.msg = "عذراً، يجب عليك عمل لايك وتعليق مميز أولاً لكي يتم تنفيذ الشرط.";
       }
-      else if (step === 4) { // اشتراك القناة الثانية
+      else if (step === 4) { 
         config.required = 8;
         config.blocking = 4;
         config.msg = "⚠️ عذراً، يجب عليك الاشتراك في القناة 2 وتفعيل الجرس لكي يتم تنفيذ الشرط.\n" +
-             "ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــ\n" +
-             "💡ملحوظة:\n" +
-             "اذا كنت بالفعل مشترك في القناة 2 , فقط قم بالضغط علي الزر مجددا ومن ثم قم بالانتظار 6 ثواني ومن ثم ارجع لصفحة الشروط مجددا.";
+                     "ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــ\n" +
+                     "💡ملحوظة:\n" +
+                     "اذا كنت بالفعل مشترك في القناة 2 , فقط قم بالضغط علي الزر مجددا ومن ثم قم بالانتظار 6 ثواني ومن ثم ارجع لصفحة الشروط مجددا.";
       }
-      // ------------------------------------
 
-      // !! التعديل الأساسي لحل مشكلة الهاتف !!
-      // استخدام visibilitychange بالإضافة إلى focus لضمان عمل الكود عند العودة من يوتيوب
+      // !! التصحيح هنا !!
       const checkCondition = () => {
-        // إزالة المستمعين لتجنب التكرار
         window.removeEventListener('focus', checkCondition);
         document.removeEventListener('visibilitychange', checkCondition);
         
-        // إذا كانت الصفحة غير مرئية (المستخدم خرج)، لا تفعل شيئاً وانتظر العودة
         if (document.visibilityState === 'hidden') return;
 
         const elapsedSeconds = (Date.now() - timeAtClick) / 1000;
@@ -592,7 +586,6 @@ a:hover { color: #ffd700; }
         } 
         else if (elapsedSeconds < config.required) {
             const remainingTimeMs = (config.required - elapsedSeconds) * 1000;
-            // انتظر الوقت المتبقي ثم نفذ
             setTimeout(() => {
                 finishStep(step);
             }, remainingTimeMs);
@@ -602,13 +595,16 @@ a:hover { color: #ffd700; }
         }
       };
 
-      // إضافة المستمعين للحدثين (التركيز وتغيير الرؤية)
-      window.addEventListener('focus', checkCondition);
-      document.addEventListener('visibilitychange', function() {
-          if (document.visibilityState === 'visible') {
-              checkCondition();
-          }
-      });
+      // ننتظر 1.5 ثانية قبل بدء المراقبة لضمان أن المستخدم قد غادر الصفحة بالفعل
+      // هذا يحل مشكلة ظهور الخطأ فورا عند الضغط
+      setTimeout(() => {
+          window.addEventListener('focus', checkCondition);
+          document.addEventListener('visibilitychange', function() {
+              if (document.visibilityState === 'visible') {
+                  checkCondition();
+              }
+          });
+      }, 1500);
     }
 
     function unlockButtons(){
@@ -648,16 +644,11 @@ a:hover { color: #ffd700; }
 
     for(let i=1;i<=4;i++){ document.getElementById("step"+i).addEventListener("contextmenu", function(e){ e.preventDefault(); }); }
     
-    // تعديل منطق زر التحميل للهاتف والكمبيوتر
     function goToDownload(e){ 
-        // إذا لم يكن الزر مفعلاً لا تفعل شيئاً
-        if(!document.getElementById("btnDownload").classList.contains("active")) {
+       if(!document.getElementById("btnDownload").classList.contains("active")) {
              e.preventDefault();
              return;
-        }
-        // إذا كان مفعلاً، سيفتح الرابط الموجود في href تلقائياً
-        // لكن إذا أردنا فرضه عبر JS:
-        // window.open("https://xdabo.com/9Lnnv7","_blank"); 
+       }
     }
 
     const downloadBtn=document.getElementById("btnDownload");
@@ -677,7 +668,6 @@ a:hover { color: #ffd700; }
       });
     }
 
-    // التعامل مع الضغط المطول (لنسخ الرابط) بدون تعطيل النقرة العادية
     downloadBtn.addEventListener("contextmenu", function(e){ 
         e.preventDefault(); 
         copyLink(); 
@@ -687,7 +677,6 @@ a:hover { color: #ffd700; }
         downloadBtn.style.backgroundColor="#444"; 
         pressTimer = setTimeout(() => {
             copyLink();
-            // اهتزاز الهاتف عند النسخ (اختياري)
             if (navigator.vibrate) navigator.vibrate(50);
         }, 800); 
     }, {passive: true});
@@ -705,4 +694,3 @@ a:hover { color: #ffd700; }
   </script>
 </body>
 </html>
-
