@@ -8,7 +8,7 @@
 
 <style>
 /* --- إعدادات عامة --- */
-* { box-sizing: border-box; margin:0; padding:0; outline: none; }
+* { box-sizing: border-box; margin:0; padding:0; }
 
 body {
   font-family: 'Cairo', 'Tahoma', sans-serif;
@@ -25,10 +25,12 @@ body {
 
 /* --- تأثير تساقط الثلج --- */
 .snow-container {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; overflow: hidden;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: -1; overflow: hidden;
 }
 .snow {
-    position: absolute; width: 10px; height: 10px; background: white; border-radius: 50%; opacity: 0.8; animation: snowfall linear infinite;
+    position: absolute; width: 10px; height: 10px; background: white;
+    border-radius: 50%; opacity: 0.8; animation: snowfall linear infinite;
 }
 @keyframes snowfall {
     0% { transform: translateY(-10vh) translateX(0); opacity: 1; }
@@ -38,7 +40,8 @@ body {
 /* --- الحاوية الرئيسية --- */
 .page-container {
   width: 95%; max-width: 600px;
-  background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
   border-radius: 25px; padding: 30px 25px;
   border: 2px solid rgba(255, 215, 0, 0.5);
   box-shadow: 0 0 30px rgba(255, 0, 0, 0.3), inset 0 0 20px rgba(255, 215, 0, 0.2);
@@ -50,20 +53,25 @@ body {
 /* --- الصورة العلوية --- */
 .top-image-container {
   width: 100%; border-radius: 15px; margin-bottom: 25px; overflow: hidden;
-  border: 3px solid #c0a062; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); background-color: #000;
+  border: 3px solid #c0a062; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+  background-color: #000;
 }
-.top-image-container img { width: 100%; height: auto; display: block; object-fit: cover; transition: transform 0.5s ease; }
+.top-image-container img {
+  width: 100%; height: auto; display: block; object-fit: cover;
+  transition: transform 0.5s ease;
+}
 
 /* --- العناوين --- */
 h2 {
-  font-family: 'Cinzel Decorative', cursive; font-size: 24px; margin-bottom: 20px; color: #ffd700;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 10px #ff4500; text-align: center; line-height: 1.4;
+  font-family: 'Cinzel Decorative', cursive; font-size: 24px; margin-bottom: 20px;
+  color: #ffd700; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 10px #ff4500;
+  text-align: center; line-height: 1.4;
 }
 
 /* --- شريط التقدم --- */
 .progress-container {
-  width: 100%; height: 24px; background-color: #2a0a0a; border-radius: 15px; overflow: hidden;
-  border: 2px solid #c0a062; margin-bottom: 30px; position: relative;
+  width: 100%; height: 24px; background-color: #2a0a0a; border-radius: 15px;
+  overflow: hidden; border: 2px solid #c0a062; margin-bottom: 30px; position: relative;
 }
 .progress-bar {
   height: 100%; width: 0%;
@@ -87,11 +95,13 @@ h2 {
   background: linear-gradient(to right, transparent, rgba(255,215,0,0.2), transparent);
   transform: skewX(-25deg); transition: 0.7s; pointer-events: none;
 }
+.step a { position: relative; z-index: 2; }
 .step.active:hover::before { left: 100%; }
 .step.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
 
 .step.completed {
-  background: linear-gradient(145deg, #0f4d0f, #002900); border-color: #00ff00; box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+  background: linear-gradient(145deg, #0f4d0f, #002900);
+  border-color: #00ff00; box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
 }
 .step.completed span { color: #a9ffcb; }
 .step span { text-align: right; font-size: inherit; font-weight: bold; }
@@ -101,6 +111,7 @@ h2 {
 a { color: #fffaf0; text-decoration: none; display: flex; align-items: center; width: 100%; justify-content: space-between; }
 a:hover { color: #ffd700; }
 
+/* أيقونة التحميل */
 .loading {
   display: inline-block; width: 20px; height: 20px;
   border: 3px solid rgba(255,215,0,0.3); border-top: 3px solid #ffd700;
@@ -117,14 +128,16 @@ a:hover { color: #ffd700; }
 }
 .final-buttons::before { content: '🎀'; position: absolute; top: -15px; left: 50%; transform: translateX(-50%); font-size: 30px; }
 .final-buttons a {
-  display: block; background: linear-gradient(to bottom, #555, #333); color: #aaa;
-  padding: 16px; border-radius: 14px; font-size: 18px; font-weight: bold;
-  margin: 10px auto; pointer-events: none; opacity: 0.6; transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3); text-align: center; border: 1px solid #444;
+  display: block; background: linear-gradient(to bottom, #555, #333);
+  color: #aaa; padding: 16px; border-radius: 14px; font-size: 18px;
+  font-weight: bold; margin: 10px auto; pointer-events: none; opacity: 0.6;
+  transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  text-align: center; border: 1px solid #444;
 }
 .final-buttons a.active {
-  background: linear-gradient(to bottom, #d40000, #990000); color: #ffd700; pointer-events: auto;
-  opacity: 1; border: 2px solid #ffd700; box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.4);
+  background: linear-gradient(to bottom, #d40000, #990000); color: #ffd700;
+  pointer-events: auto; opacity: 1; border: 2px solid #ffd700;
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.4);
   animation: pulseGift 1.5s infinite;
 }
 @keyframes pulseGift {
@@ -132,50 +145,65 @@ a:hover { color: #ffd700; }
   50% { transform: scale(1.02); box-shadow: 0 0 30px rgba(255, 50, 50, 1), 0 0 50px rgba(255, 215, 0, 0.6); }
   100% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 0, 0, 0.8); }
 }
-.final-buttons a.btn-guide { background: linear-gradient(to bottom, #006600, #004d00) !important; color: #fff !important; border-color: #00ff00;}
+.final-buttons a.btn-guide { background: linear-gradient(to bottom, #006600, #004d00) !important; color: #fff !important; border-color: #00ff00; }
 .final-buttons a.active:hover { transform: scale(1.05) !important; }
 .footer-note { margin-top: 20px; font-size: 12px; color: #c0a062; text-align: center; opacity: 0.7; }
+
+/* --- ستايل نافذة التنبيه الاحترافية (Custom Alert) --- */
+.custom-alert-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85); z-index: 10000;
+    display: none; /* مخفي افتراضياً */
+    justify-content: center; align-items: center;
+    backdrop-filter: blur(8px); opacity: 0; transition: opacity 0.3s ease;
+}
+.custom-alert-overlay.show-overlay { display: flex; opacity: 1; }
+
+.custom-alert-box {
+    background: linear-gradient(145deg, #2a0a0a, #000);
+    border: 2px solid #ff4d4d;
+    border-radius: 20px; padding: 30px; text-align: center;
+    max-width: 90%; width: 380px;
+    box-shadow: 0 0 40px rgba(255, 0, 0, 0.5);
+    transform: scale(0.7); opacity: 0; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.custom-alert-overlay.show-overlay .custom-alert-box { transform: scale(1); opacity: 1; }
+
+.alert-icon { font-size: 50px; margin-bottom: 15px; display: inline-block; animation: shakeIcon 0.8s ease; }
+@keyframes shakeIcon { 
+    0%, 100% { transform: translateX(0); } 
+    20%, 60% { transform: translateX(-6px) rotate(-5deg); } 
+    40%, 80% { transform: translateX(6px) rotate(5deg); } 
+}
+
+.alert-title { color: #ff4d4d; font-size: 22px; font-weight: bold; margin-bottom: 10px; text-shadow: 0 0 10px rgba(255,0,0,0.5); }
+.alert-content { color: #e0e0e0; font-size: 16px; margin-bottom: 25px; line-height: 1.6; }
+
+.alert-btn {
+    background: linear-gradient(to right, #d40000, #990000);
+    color: #ffd700; border: 1px solid #ffd700; padding: 10px 35px;
+    border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3); transition: transform 0.2s, box-shadow 0.2s;
+    font-family: 'Cairo', sans-serif;
+}
+.alert-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 50, 50, 0.6); background: linear-gradient(to right, #ff1a1a, #d40000); }
+
 
 @media (max-width: 600px) {
   .final-buttons a, .final-buttons a.btn-guide {
     font-size: 19px !important; padding: 16px 12px !important; display: flex !important;
-    align-items: center; justify-content: center; text-align: center; line-height: 1.2 !important;
-    min-height: 65px; width: 100% !important; border-radius: 15px !important; margin: 15px 0 !important;
+    align-items: center; justify-content: center; text-align: center;
+    line-height: 1.2 !important; min-height: 65px; width: 100% !important;
+    border-radius: 15px !important; margin: 15px 0 !important;
   }
   .final-buttons { padding: 25px 15px !important; }
   .step { font-size: 15px; padding: 12px 15px; }
 }
 
-/* --- تصميم النافذة المنبثقة الاحترافية --- */
-.custom-modal-overlay {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px);
-  display: flex; justify-content: center; align-items: center;
-  z-index: 10000; opacity: 0; visibility: hidden; transition: all 0.3s ease;
-}
-.custom-modal-overlay.show { opacity: 1; visibility: visible; }
-.custom-modal-content {
-  background: linear-gradient(145deg, #440000, #1a0000); border: 2px solid #ffd700;
-  border-radius: 20px; padding: 30px; width: 90%; max-width: 400px; text-align: center;
-  box-shadow: 0 0 30px rgba(255, 215, 0, 0.3); transform: scale(0.8);
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative;
-}
-.custom-modal-overlay.show .custom-modal-content { transform: scale(1); }
-.modal-icon { font-size: 50px; margin-bottom: 15px; animation: bounce 1s infinite; }
-@keyframes bounce { 0%, 100% {transform: translateY(0);} 50% {transform: translateY(-10px);} }
-.modal-title { font-family: 'Cinzel Decorative', cursive; color: #ffd700; font-size: 22px; margin-bottom: 15px; }
-.modal-text { font-family: 'Cairo', sans-serif; color: #fff; font-size: 16px; margin-bottom: 25px; line-height: 1.6; }
-.modal-btn {
-  background: linear-gradient(to right, #c0a062, #e6c278); color: #2a0a0a; border: none; padding: 10px 30px;
-  border-radius: 50px; font-size: 16px; font-weight: bold; cursor: pointer; transition: transform 0.2s; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-}
-.modal-btn:hover { transform: scale(1.05); background: #ffd700; }
-
-/* popup نسخ الرابط */
 #copyPopup {
   position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-  background: linear-gradient(to right, #d40000, #b30000); color: #ffd700;
-  padding: 12px 25px; border-radius: 12px; font-weight: bold;
+  background: linear-gradient(to right, #d40000, #b30000);
+  color: #ffd700; padding: 12px 25px; border-radius: 12px; font-weight: bold;
   box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); opacity: 0; pointer-events: none;
   transition: opacity 0.5s; z-index: 9999; border: 1px solid #ffd700;
 }
@@ -242,16 +270,16 @@ a:hover { color: #ffd700; }
     </div>
   </div>
 
-  <div id="copyPopup">تم نسخ الرابط بنجاح! 🎄</div>
-
-  <div id="customModal" class="custom-modal-overlay">
-    <div class="custom-modal-content">
-      <div class="modal-icon">⚠️</div>
-      <h3 class="modal-title">عذراً!</h3>
-      <p id="modalMessage" class="modal-text">الرسالة هنا</p>
-      <button class="modal-btn" onclick="closeCustomAlert()">حسناً، سأقوم بذلك</button>
+  <div id="customAlert" class="custom-alert-overlay">
+    <div class="custom-alert-box">
+      <div class="alert-icon">⚠️</div>
+      <div class="alert-title">تنبيه هام!</div>
+      <div class="alert-content" id="customAlertMessage">الرسالة هنا</div>
+      <button class="alert-btn" onclick="closeCustomAlert()">حسناً، فهمت</button>
     </div>
   </div>
+
+  <div id="copyPopup">تم نسخ الرابط بنجاح! 🎄</div>
 
   <script>
     document.getElementById("mainImage").addEventListener("contextmenu", function(e){ e.preventDefault(); });
@@ -266,7 +294,7 @@ a:hover { color: #ffd700; }
 
     function isStateExpired(savedState) { if(!savedState.timestamp) return true; return Date.now() - savedState.timestamp > STEP_EXPIRY_MS; }
 
-    window.onload = () => {
+   window.onload = () => {
       const s1 = JSON.parse(localStorage.getItem(step1StorageKey) || "{}");
       const s2 = JSON.parse(localStorage.getItem(step2StorageKey) || "{}");
       const s3 = JSON.parse(localStorage.getItem(step3StorageKey) || "{}");
@@ -295,41 +323,60 @@ a:hover { color: #ffd700; }
       if(firstIncomplete){ setTimeout(()=>{ firstIncomplete.scrollIntoView({behavior:"smooth", block:"center"}); }, 600); }
     };
 
-    function showCustomAlert(message) {
-      document.getElementById('modalMessage').innerText = message;
-      document.getElementById('customModal').classList.add('show');
-    }
-    function closeCustomAlert() {
-      document.getElementById('customModal').classList.remove('show');
-    }
-
-    function finishStep(step) {
-      const stepElement = document.getElementById("step" + step);
-      const check = document.getElementById("check" + step);
-      
-      stepElement.classList.add("completed");
-      check.innerText = "✅";
-
+    function saveStepState(step){
       let key = "";
       if(step===1) key = step1StorageKey;
-      else if(step===2) key = step2StorageKey;
-      else if(step===3) key = step3StorageKey;
-      else if(step===4) key = step4StorageKey;
-
+      if(step===2) key = step2StorageKey;
+      if(step===3) key = step3StorageKey;
+      if(step===4) key = step4StorageKey;
       const data = { completed: true, timestamp: Date.now() };
       localStorage.setItem(key, JSON.stringify(data));
-
-      if(step < 4) {
-        document.getElementById("step" + (step+1)).classList.add("active");
-      }
-
-      unlockButtons();
-      updateProgressBar();
     }
 
     let isChecking = false;
-    // المتغير المهم جداً: هذا الذي يحفظ وقت أول ضغطة ولا يمسحه أبداً إلا عند النجاح
-    const stepTimers = {};
+
+    // دوال النافذة المنبثقة الجديدة
+    function showCustomAlert(msg) {
+        const overlay = document.getElementById('customAlert');
+        const msgBox = document.getElementById('customAlertMessage');
+        msgBox.innerText = msg;
+        overlay.style.display = 'flex'; // أولاً نجعله مرئياً
+        // تأخير بسيط لتفعيل الأنيميشن
+        setTimeout(() => {
+            overlay.classList.add('show-overlay');
+        }, 10);
+    }
+
+    function closeCustomAlert() {
+        const overlay = document.getElementById('customAlert');
+        overlay.classList.remove('show-overlay');
+        // انتظار انتهاء الأنيميشن قبل الإخفاء
+        setTimeout(() => {
+            overlay.style.display = 'none';
+        }, 300);
+    }
+
+    function finishStep(step) {
+        const stepElement = document.getElementById("step" + step);
+        const check = document.getElementById("check" + step);
+
+        if (!stepElement.classList.contains("completed")) {
+            stepElement.classList.add("completed");
+            check.innerText = "✅";
+            saveStepState(step);
+            updateProgressBar();
+            unlockButtons();
+
+            const nextStep = step + 1;
+            if (document.getElementById("step" + nextStep)) {
+                document.getElementById("step" + nextStep).classList.add("active");
+                setTimeout(() => {
+                    document.getElementById("step" + nextStep).scrollIntoView({behavior:"smooth", block:"center"});
+                }, 500);
+            }
+        }
+        isChecking = false;
+    }
 
     function completeStep(step, url = null) {
       const stepElement = document.getElementById("step" + step);
@@ -337,91 +384,73 @@ a:hover { color: #ffd700; }
       
       if (stepElement.classList.contains("completed") || isChecking) return;
 
-      // إعدادات الأوقات لكل خطوة
-      let config = { blocking: 0, required: 0 };
+      let config = { required: 0, blocking: 0, msg: "" };
 
-      // الخطوات 1 و 4 (الاشتراك): وقت الخطأ 4 ثواني - وقت النجاح 8 ثواني
       if (step === 1 || step === 4) { 
-          config.blocking = 4;
-          config.required = 8;
-      // الخطوة 2 (الفيديو): وقت الخطأ 8 ثواني - وقت النجاح 35 ثانية
+        config.required = 8;
+        config.blocking = 4;
+        config.msg = "عذراً، يجب عليك الاشتراك في القناة أولاً لكي يتم تنفيذ الشرط.";
       } else if (step === 2) { 
-          config.blocking = 8;
-          config.required = 35;
-      // الخطوة 3 (لايك): وقت الخطأ 5 ثواني - وقت النجاح 10 ثواني
+        config.required = 35; 
+        config.blocking = 8;
+        config.msg = "عذراً، يجب عليك مشاهدة الفيديو كاملاً أولاً لكي يتم تنفيذ الشرط.";
       } else if (step === 3) { 
-          config.blocking = 5;
-          config.required = 10;
+        config.required = 12;
+        config.blocking = 7;
+        config.msg = "عذراً، يجب عليك عمل لايك وتعليق مميز أولاً لكي يتم تنفيذ الشرط.";
       }
 
-      // إذا لم يكن هناك وقت بداية محفوظ، احفظ الوقت الحالي
-      // هذا الشرط يضمن أن العداد لا يتصفر إذا عاد الزائر وضغط مرة أخرى
-      if (!stepTimers[step]) {
-          stepTimers[step] = Date.now();
-      }
-
-      // فتح الرابط دائماً
       if (step === 3) {
-          const selected = step3Links[Math.floor(Math.random() * step3Links.length)];
-          window.open(selected, "_blank");
+        const selected = step3Links[Math.floor(Math.random() * step3Links.length)];
+        window.open(selected, "_blank");
       } else if (url) {
-          window.open(url, "_blank");
+        window.open(url, "_blank");
       }
 
+      const timeAtClick = Date.now();
       isChecking = true;
       check.innerHTML = '<span class="loading"></span>';
 
       const onFocusVerify = () => {
-        // حساب الوقت بناءً على أول ضغطة مسجلة في stepTimers
-        const elapsedTime = (Date.now() - stepTimers[step]) / 1000;
-
-        if (elapsedTime < config.blocking) {
-            // الحالة 1: عاد بسرعة جداً (أقل من وقت الخطأ)
-            let msg = "";
-            if(step === 1 || step === 4) {
-               msg = "عذراً، يجب عليك الاشتراك في القناة أولاً لكي يتم تنفيذ الشرط.";
-            } else if (step === 2) {
-               msg = "عذراً، يجب عليك مشاهدة الفيديو كاملاً أولاً لكي يتم تنفيذ الشرط.";
-            } else if (step === 3) {
-               msg = "عذراً، يجب عليك عمل لايك وتعليق مميز أولاً لكي يتم تنفيذ الشرط.";
-            }
-            showCustomAlert(msg);
-            
-            // إعادة الزر دون نجاح
-            check.innerText = "➡️"; 
-            isChecking = false;
-
-        } else if (elapsedTime < config.required) {
-            // الحالة 2: المنطقة الصامتة (تجاوز وقت الخطأ ولكن لم يكمل الوقت المطلوب)
-            // هنا لا نظهر خطأ ولا ننجح العملية. فقط نعيد الزر لطبيعته
-            // والأهم: لا نحذف stepTimers، فالعداد مستمر في الخلفية
-            
-            check.innerText = "➡️"; 
-            isChecking = false;
-
-        } else {
-            // الحالة 3: تجاوز الوقت المطلوب بالكامل -> نجاح
-            finishStep(step);
-            isChecking = false;
-            // الآن يمكن حذف العداد لأن المهمة تمت
-            delete stepTimers[step];
-        }
         window.removeEventListener('focus', onFocusVerify);
+        
+        const elapsedSeconds = (Date.now() - timeAtClick) / 1000;
+
+        // الحالة 1: العودة بسرعة (ظهور الرسالة الاحترافية)
+        if (elapsedSeconds < config.blocking) {
+            showCustomAlert(config.msg); // استخدام التنبيه الجديد
+            check.innerText = "➡️"; 
+            isChecking = false;
+        } 
+        // الحالة 2: انتظار اكتمال الوقت المتبقي بصمت
+        else if (elapsedSeconds < config.required) {
+            const remainingTimeMs = (config.required - elapsedSeconds) * 1000;
+            setTimeout(() => {
+                finishStep(step);
+            }, remainingTimeMs);
+        } 
+        // الحالة 3: النجاح
+        else {
+            finishStep(step);
+        }
       };
 
       window.addEventListener('focus', onFocusVerify);
     }
 
     function unlockButtons(){
-      const allCompleted=[1,2].every(i=>document.getElementById("step"+i).classList.contains("completed")) &&
-        document.getElementById("step3").classList.contains("completed") &&
-        document.getElementById("step4").classList.contains("completed");
+      const allCompleted = [1,2,3,4].every(i => {
+         const el = document.getElementById("step"+i);
+         return el && el.classList.contains("completed");
+      });
+
       if(allCompleted){
         document.getElementById("finalMessage").innerText="✅ تم تنفيذ كل الخطوات بنجاح";
         document.getElementById("finalMessage").style.color="#00ff00";
         document.getElementById("finalMessage").style.textShadow="0 0 10px #ffd700";
         document.getElementById("btnDownload").classList.add("active");
         setTimeout(()=>{ document.getElementById("btnDownload").scrollIntoView({behavior:"smooth", block:"center"}); },800);
+        
         if(!document.getElementById("btnGuide")){
           const guideBtn=document.createElement("a");
           guideBtn.id="btnGuide";
