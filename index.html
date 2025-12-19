@@ -561,18 +561,9 @@ a:hover { color: #ffd700; }
     let activeVerifications = {};
 
     function showCustomAlert(message) {
-    const overlay = document.getElementById("customAlert");
-    document.getElementById("customAlertMsg").innerText = message;
-    overlay.classList.add("show");
-
-    // إغلاق تلقائي مضمون
-    if (overlay._autoHide) clearTimeout(overlay._autoHide);
-    overlay._autoHide = setTimeout(() => {
-        overlay.classList.remove("show");
-        overlay._autoHide = null;
-    }, 3000);
-}
-
+        document.getElementById("customAlertMsg").innerText = message;
+        document.getElementById("customAlert").classList.add("show");
+    }
 
     function closeCustomAlert() {
         document.getElementById("customAlert").classList.remove("show");
@@ -580,6 +571,7 @@ a:hover { color: #ffd700; }
 
     // دالة لإنهاء الخطوة بنجاح وتفعيل ما يليها
     function finishStep(step) {
+      closeCustomAlert();
         const stepElement = document.getElementById("step" + step);
         const check = document.getElementById("check" + step);
 
