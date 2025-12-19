@@ -657,40 +657,54 @@ a:hover { color: #ffd700; }
       }
       // ------------------------------------
 
-      // دالة التحقق المعدلة لتعمل على الموبايل والكمبيوتر
-      const verifyReturn = () => {
-        // حذف المستمعين فوراً لعدم التكرار
-        window.removeEventListener('focus', verifyReturn);
-        document.removeEventListener('visibilitychange', visibilityHandler);
-        
-        const elapsedSeconds = (Date.now() - timeAtClick) / 1000;
+            // بدل استخدام focus فقط — نحفظ حالة التحقق ونستمع لأحداث أكثر موثوقية على الجوال
+      activeVerifications[step] = { checking: true, timeAtClick: timeAtClick, timeoutId: null };
 
-        if (elapsedSeconds < config.blocking) {
-            showCustomAlert(config.msg);
-            check.innerText = "➡️"; 
-            activeVerifications[step] = false; 
-        } 
-        else if (elapsedSeconds < config.required) {
-            const remainingTimeMs = (config.required - elapsedSeconds) * 1000;
-            setTimeout(() => {
-                finishStep(step);
-            }, remainingTimeMs);
-        } 
-        else {
-            finishStep(step);
-        }
-      };
+      function handleReturn() {
+          const info = activeVerifications[step];
+          if (!info || !info.checking) return;
+          const elapsedSeconds = (Date.now() - info.timeAtClick) / 1000;
 
-      // دالة مساعدة للتعامل مع تغيير حالة الرؤية في الموبايل
-      const visibilityHandler = () => {
-         if (document.visibilityState === 'visible') {
-             verifyReturn();
-         }
-      };
+          if (elapsedSeconds < config.blocking) {
+              // الرجوع سريع جداً — عرض رسالة الخطأ كما في السابق
+              showCustomAlert(config.msg);
+              check.innerText = "➡️";
+              activeVerifications[step] = false;
+              cleanup();
+              return;
+          }
 
-      // إضافة المستمعين (Focus + Visibility) لضمان العمل على كل الأجهزة
-      window.addEventListener('focus', verifyReturn);
-      document.addEventListener('visibilitychange', visibilityHandler);
+          if (elapsedSeconds < config.required) {
+              // ننتظر بقية المدة ثم نكمل الخطوة
+              const remainingTimeMs = (config.required - elapsedSeconds) * 1000;
+              info.timeoutId = setTimeout(() => {
+                  finishStep(step);
+                  cleanup();
+              }, remainingTimeMs);
+          } else {
+              // مر الوقت المطلوب بالفعل
+              finishStep(step);
+              cleanup();
+          }
+      }
+
+      function cleanup() {
+          window.removeEventListener('focus', onReturnFocus);
+          document.removeEventListener('visibilitychange', onVisibilityChange);
+          window.removeEventListener('pageshow', onPageShow);
+          const info = activeVerifications[step];
+          if (info && info.timeoutId) { clearTimeout(info.timeoutId); info.timeoutId = null; }
+      }
+
+      function onReturnFocus() { handleReturn(); }
+      function onVisibilityChange() { if (document.visibilityState === 'visible') handleReturn(); }
+      function onPageShow(e) { if (e.persisted || document.visibilityState === 'visible') handleReturn(); }
+
+      // نستمع لثلاث أحداث: focus, visibilitychange, pageshow -> يعالج معظم حالات الجوال
+      window.addEventListener('focus', onReturnFocus);
+      document.addEventListener('visibilitychange', onVisibilityChange);
+      window.addEventListener('pageshow', onPageShow);
+
     }
 
     function unlockButtons(){
