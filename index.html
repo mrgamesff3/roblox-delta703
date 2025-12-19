@@ -12,9 +12,8 @@
 
 body {
   font-family: 'Cairo', 'Tahoma', sans-serif;
-  /* خلفية كريسماس متدرجة احترافية */
   background: radial-gradient(circle at center, #330000, #0f2e0f, #000000);
-  color: #fffaf0; /* لون كريمي فاتح للنص */
+  color: #fffaf0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,6 +21,8 @@ body {
   overflow-x: hidden;
   padding: 20px 0;
   position: relative;
+  /* منع تحديد النص بشكل عام لتحسين تجربة التطبيق */
+  -webkit-tap-highlight-color: transparent; 
 }
 
 /* --- تأثير تساقط الثلج --- */
@@ -53,34 +54,21 @@ body {
 .page-container {
   width: 95%;
   max-width: 600px;
-  /* خلفية شبه شفافة بتأثير زجاجي مثلج */
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border-radius: 25px;
   padding: 30px 25px;
-  /* حدود ذهبية متلألئة */
   border: 2px solid rgba(255, 215, 0, 0.5);
   box-shadow: 0 0 30px rgba(255, 0, 0, 0.3), 
               inset 0 0 20px rgba(255, 215, 0, 0.2);
   position: relative;
   overflow: hidden;
 }
-/* إضافة زينة في زوايا الحاوية */
 .page-container::before {
-    content: '❄️';
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    font-size: 25px;
-    opacity: 0.5;
+    content: '❄️'; position: absolute; top: 10px; left: 10px; font-size: 25px; opacity: 0.5;
 }
 .page-container::after {
-    content: '🎁';
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    font-size: 25px;
-    opacity: 0.5;
+    content: '🎁'; position: absolute; bottom: 10px; right: 10px; font-size: 25px; opacity: 0.5;
 }
 
 /* --- تعديل حاوية الصورة العلوية --- */
@@ -94,7 +82,6 @@ body {
   background-color: #000;
 }
 
-/* --- تعديل خصائص الصورة نفسها --- */
 .top-image-container img {
   width: 100%;
   height: auto;
@@ -165,15 +152,13 @@ h2 {
   font-size: 17px;
   position: relative;
   overflow: hidden;
+  cursor: pointer; /* مهم للكمبيوتر */
 }
 
 .step::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: -50%;
-  width: 100%;
-  height: 100%;
+  top: 0; left: -50%; width: 100%; height: 100%;
   background: linear-gradient(to right, transparent, rgba(255,215,0,0.2), transparent);
   transform: skewX(-25deg);
   transition: 0.7s;
@@ -188,7 +173,6 @@ h2 {
 .step.active:hover::before { left: 100%; }
 .step.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
 
-/* تنسيق الخطوة المكتملة */
 .step.completed {
   background: linear-gradient(145deg, #0f4d0f, #002900);
   border-color: #00ff00;
@@ -236,12 +220,7 @@ a:hover { color: #ffd700; }
   position: relative;
 }
 .final-buttons::before {
-    content: '🎀';
-    position: absolute;
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 30px;
+    content: '🎀'; position: absolute; top: -15px; left: 50%; transform: translateX(-50%); font-size: 30px;
 }
 
 .final-buttons a {
@@ -280,11 +259,7 @@ a:hover { color: #ffd700; }
 .final-buttons a.active:hover { transform: scale(1.05) !important; }
 
 .footer-note {
-    margin-top: 20px;
-    font-size: 12px;
-    color: #c0a062;
-    text-align: center;
-    opacity: 0.7;
+    margin-top: 20px; font-size: 12px; color: #c0a062; text-align: center; opacity: 0.7;
 }
 
 @media (max-width: 600px) {
@@ -302,105 +277,46 @@ a:hover { color: #ffd700; }
     border-radius: 15px !important;
     margin: 15px 0 !important;
   }
-  .final-buttons {
-    padding: 25px 15px !important;
-  }
-  .step {
-    font-size: 15px; 
-    padding: 12px 15px;
-  }
+  .final-buttons { padding: 25px 15px !important; }
+  .step { font-size: 15px; padding: 12px 15px; }
 }
 
 #copyPopup {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
+  position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
   background: linear-gradient(to right, #d40000, #b30000);
-  color: #ffd700;
-  padding: 12px 25px;
-  border-radius: 12px;
-  font-weight: bold;
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.5s;
-  z-index: 9999;
-  border: 1px solid #ffd700;
+  color: #ffd700; padding: 12px 25px; border-radius: 12px;
+  font-weight: bold; box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+  opacity: 0; pointer-events: none; transition: opacity 0.5s;
+  z-index: 9999; border: 1px solid #ffd700;
 }
 
 /* --- تنسيقات نافذة التنبيه الاحترافية --- */
 .custom-alert-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
-    opacity: 0;
-    visibility: hidden;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 10000; opacity: 0; visibility: hidden;
     transition: all 0.3s ease;
 }
-.custom-alert-overlay.show {
-    opacity: 1;
-    visibility: visible;
-}
+.custom-alert-overlay.show { opacity: 1; visibility: visible; }
 .custom-alert-box {
     background: linear-gradient(145deg, #2a0a0a, #440000);
-    border: 2px solid #c0a062;
-    padding: 25px 30px;
-    border-radius: 20px;
-    text-align: center;
-    width: 90%;
-    max-width: 400px;
-    transform: scale(0.8);
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 2px solid #c0a062; padding: 25px 30px; border-radius: 20px;
+    text-align: center; width: 90%; max-width: 400px;
+    transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
 }
-.custom-alert-overlay.show .custom-alert-box {
-    transform: scale(1);
-}
-.alert-icon {
-    font-size: 50px;
-    margin-bottom: 15px;
-    animation: bounce 1s infinite;
-}
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-.alert-title {
-    color: #ffd700;
-    font-size: 22px;
-    margin-bottom: 10px;
-    font-family: 'Cinzel Decorative', cursive;
-}
-.alert-text {
-    color: #fff;
-    font-size: 16px;
-    margin-bottom: 20px;
-    line-height: 1.5;
-}
+.custom-alert-overlay.show .custom-alert-box { transform: scale(1); }
+.alert-icon { font-size: 50px; margin-bottom: 15px; animation: bounce 1s infinite; }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.alert-title { color: #ffd700; font-size: 22px; margin-bottom: 10px; font-family: 'Cinzel Decorative', cursive; }
+.alert-text { color: #fff; font-size: 16px; margin-bottom: 20px; line-height: 1.5; }
 .alert-btn {
     background: linear-gradient(to bottom, #c0a062, #94703a);
-    border: none;
-    color: #2a0a0a;
-    padding: 10px 25px;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s;
+    border: none; color: #2a0a0a; padding: 10px 25px; border-radius: 10px;
+    font-size: 16px; font-weight: bold; cursor: pointer; transition: transform 0.2s;
 }
-.alert-btn:hover {
-    transform: scale(1.05);
-    background: linear-gradient(to bottom, #ffd700, #c0a062);
-}
+.alert-btn:hover { transform: scale(1.05); background: linear-gradient(to bottom, #ffd700, #c0a062); }
 
 </style>
 
@@ -460,7 +376,7 @@ a:hover { color: #ffd700; }
     <div class="final-section">
       <div id="finalMessage" class="final-message">❌ نفّذ الخطوات أولاً لكي يتم فتح روابط التحميل</div>
       <div class="final-buttons">
-        <a id="btnDownload" href="https://xdabo.com/9Lnnv7" onclick="goToDownload(); return false;">🎅🎁 لتحميل هاك دلتا اخر اصدار العميل 703 اضغط هنا</a>
+        <a id="btnDownload" href="https://xdabo.com/9Lnnv7" onclick="goToDownload(event);">🎅🎁 لتحميل هاك دلتا اخر اصدار العميل 703 اضغط هنا</a>
       </div>
       <p class="footer-note">© 2025 Happy New Year & Merry Christmas</p>
     </div>
@@ -490,7 +406,7 @@ a:hover { color: #ffd700; }
     const step3StorageKey = "step3States_v7236253253723832323424242242_page8273263263623727837237";
     const step4StorageKey = "step4States_v82372362326327328382382372";
 
-    function isStateExpired(savedState) { if(!savedState.timestamp) return true; return Date.now() - savedState.timestamp > STEP_EXPIRY_MS; }
+    function isStateExpired(savedState) { if(!savedState || !savedState.timestamp) return true; return Date.now() - savedState.timestamp > STEP_EXPIRY_MS; }
 
    window.onload = () => {
       // جلب الحالات
@@ -633,9 +549,9 @@ a:hover { color: #ffd700; }
         config.required = 8;
         config.blocking = 4;
         config.msg = "⚠️ عذراً، يجب عليك الاشتراك في القناة 1 وتفعيل الجرس لكي يتم تنفيذ الشرط.\n" +
-              "ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــ\n" +
-              "💡ملحوظة:\n" +
-              "اذا كنت بالفعل مشترك في القناة 1 , فقط قم بالضغط علي الزر مجددا ومن ثم قم بالانتظار 6 ثواني ومن ثم ارجع لصفحة الشروط مجددا.";
+             "ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــ\n" +
+             "💡ملحوظة:\n" +
+             "اذا كنت بالفعل مشترك في القناة 1 , فقط قم بالضغط علي الزر مجددا ومن ثم قم بالانتظار 6 ثواني ومن ثم ارجع لصفحة الشروط مجددا.";
       } 
       else if (step === 2) { // مشاهدة الفيديو
         config.required = 35; 
@@ -651,21 +567,22 @@ a:hover { color: #ffd700; }
         config.required = 8;
         config.blocking = 4;
         config.msg = "⚠️ عذراً، يجب عليك الاشتراك في القناة 2 وتفعيل الجرس لكي يتم تنفيذ الشرط.\n" +
-              "ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــ\n" +
-              "💡ملحوظة:\n" +
-              "اذا كنت بالفعل مشترك في القناة 2 , فقط قم بالضغط علي الزر مجددا ومن ثم قم بالانتظار 6 ثواني ومن ثم ارجع لصفحة الشروط مجددا.";
+             "ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــ\n" +
+             "💡ملحوظة:\n" +
+             "اذا كنت بالفعل مشترك في القناة 2 , فقط قم بالضغط علي الزر مجددا ومن ثم قم بالانتظار 6 ثواني ومن ثم ارجع لصفحة الشروط مجددا.";
       }
       // ------------------------------------
 
-      // دالة التحقق المعدلة لتعمل على الهواتف والكمبيوتر
-      const onUserReturned = () => {
-        // إذا لم تكن الصفحة ظاهرة بالفعل، لا تقم بشيء (لإصلاح مشاكل التبويبات الخلفية في الموبايل)
+      // !! التعديل الأساسي لحل مشكلة الهاتف !!
+      // استخدام visibilitychange بالإضافة إلى focus لضمان عمل الكود عند العودة من يوتيوب
+      const checkCondition = () => {
+        // إزالة المستمعين لتجنب التكرار
+        window.removeEventListener('focus', checkCondition);
+        document.removeEventListener('visibilitychange', checkCondition);
+        
+        // إذا كانت الصفحة غير مرئية (المستخدم خرج)، لا تفعل شيئاً وانتظر العودة
         if (document.visibilityState === 'hidden') return;
 
-        // إزالة المستمعات فوراً حتى لا يتم التكرار
-        window.removeEventListener('focus', onUserReturned);
-        document.removeEventListener('visibilitychange', onUserReturned);
-        
         const elapsedSeconds = (Date.now() - timeAtClick) / 1000;
 
         if (elapsedSeconds < config.blocking) {
@@ -675,6 +592,7 @@ a:hover { color: #ffd700; }
         } 
         else if (elapsedSeconds < config.required) {
             const remainingTimeMs = (config.required - elapsedSeconds) * 1000;
+            // انتظر الوقت المتبقي ثم نفذ
             setTimeout(() => {
                 finishStep(step);
             }, remainingTimeMs);
@@ -684,9 +602,13 @@ a:hover { color: #ffd700; }
         }
       };
 
-      // إضافة المستمعين لضمان العمل على الموبايل والكمبيوتر
-      window.addEventListener('focus', onUserReturned);
-      document.addEventListener('visibilitychange', onUserReturned);
+      // إضافة المستمعين للحدثين (التركيز وتغيير الرؤية)
+      window.addEventListener('focus', checkCondition);
+      document.addEventListener('visibilitychange', function() {
+          if (document.visibilityState === 'visible') {
+              checkCondition();
+          }
+      });
     }
 
     function unlockButtons(){
@@ -725,11 +647,23 @@ a:hover { color: #ffd700; }
     }
 
     for(let i=1;i<=4;i++){ document.getElementById("step"+i).addEventListener("contextmenu", function(e){ e.preventDefault(); }); }
-    function goToDownload(){ window.open("https://xdabo.com/9Lnnv7","_blank"); }
+    
+    // تعديل منطق زر التحميل للهاتف والكمبيوتر
+    function goToDownload(e){ 
+        // إذا لم يكن الزر مفعلاً لا تفعل شيئاً
+        if(!document.getElementById("btnDownload").classList.contains("active")) {
+             e.preventDefault();
+             return;
+        }
+        // إذا كان مفعلاً، سيفتح الرابط الموجود في href تلقائياً
+        // لكن إذا أردنا فرضه عبر JS:
+        // window.open("https://xdabo.com/9Lnnv7","_blank"); 
+    }
 
     const downloadBtn=document.getElementById("btnDownload");
     const copyPopup=document.getElementById("copyPopup");
     let pressTimer;
+
     function copyLink(){
       const link=downloadBtn.getAttribute("href");
       navigator.clipboard.writeText(link).then(()=>{
@@ -737,20 +671,38 @@ a:hover { color: #ffd700; }
         copyPopup.style.opacity=1;
         setTimeout(()=>{ copyPopup.style.opacity=0; },2000);
       }).catch(()=>{
-        copyPopup.innerText="❌ فشل نسخ الرابط، حاول مرة أخرى";
+        copyPopup.innerText="❌ فشل نسخ الرابط";
         copyPopup.style.opacity=1;
         setTimeout(()=>{ copyPopup.style.opacity=0; },2000);
-      })
+      });
     }
 
-    downloadBtn.addEventListener("contextmenu", function(e){ e.preventDefault(); copyLink(); });
-    // تم تحسين الاستجابة للمس على الموبايل
+    // التعامل مع الضغط المطول (لنسخ الرابط) بدون تعطيل النقرة العادية
+    downloadBtn.addEventListener("contextmenu", function(e){ 
+        e.preventDefault(); 
+        copyLink(); 
+    });
+
     downloadBtn.addEventListener("touchstart", function(e){ 
         downloadBtn.style.backgroundColor="#444"; 
-        pressTimer=setTimeout(copyLink,1000); 
+        pressTimer = setTimeout(() => {
+            copyLink();
+            // اهتزاز الهاتف عند النسخ (اختياري)
+            if (navigator.vibrate) navigator.vibrate(50);
+        }, 800); 
     }, {passive: true});
-    downloadBtn.addEventListener("touchend", function(e){ clearTimeout(pressTimer); downloadBtn.style.backgroundColor=""; });
-    downloadBtn.addEventListener("touchmove", function(e){ clearTimeout(pressTimer); downloadBtn.style.backgroundColor=""; });
+
+    downloadBtn.addEventListener("touchend", function(e){ 
+        clearTimeout(pressTimer); 
+        downloadBtn.style.backgroundColor=""; 
+    });
+    
+    downloadBtn.addEventListener("touchmove", function(e){ 
+        clearTimeout(pressTimer); 
+        downloadBtn.style.backgroundColor=""; 
+    });
+
   </script>
 </body>
 </html>
+
