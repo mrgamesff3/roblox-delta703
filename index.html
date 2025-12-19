@@ -383,32 +383,32 @@ a:hover { color: #ffd700; }
     </div>
 
     <div id="step1" class="step active">
-  <a href="#" onclick="completeStep(1, 'https://www.youtube.com/@MRGAMESFF-k3q', 6); return false;">
-    <span>📺🔔 اضغط هنا وقم بالاشتراك في القناة 1 وتفعيل زر الجرس</span>
-    <span id="check1" class="check">➡️</span>
-  </a>
-</div>
+      <a href="#" onclick="completeStep(1, 'https://www.youtube.com/@MRGAMESFF-k3q'); return false;">
+        <span>📺🔔 اضغط هنا وقم بالاشتراك في القناة 1 وتفعيل زر الجرس</span>
+        <span id="check1" class="check">➡️</span>
+      </a>
+    </div>
 
-<div id="step2" class="step">
-  <a href="#" onclick="completeStep(2, 'https://youtu.be/OfP1CgXp6Bk', 35); return false;">
-    <span>📺▶️ اضغط هنا وشاهد الفيديو هذا كاملا عالسرعة الطبيعية</span>
-    <span id="check2" class="check">➡️</span>
-  </a>
-</div>    
+    <div id="step2" class="step">
+      <a href="#" onclick="completeStep(2, 'https://www.youtube.com/@MRGAMESFFV2'); return false;">
+        <span>📺🔔 اضغط هنا وقم بالاشتراك في القناة 2 وتفعيل زر الجرس</span>
+        <span id="check2" class="check">➡️</span>
+      </a>
+    </div>    
 
-<div id="step3" class="step">
-  <a href="#" onclick="completeStep(3, null, 10); return false;">
-    <span>👍💬 اضغط هنا وقم بعمل لايك وتعليق مميز للفيديو هذا</span>
-    <span id="check3" class="check">➡️</span>
-  </a>
-</div>
+    <div id="step3" class="step">
+      <a href="#" onclick="completeStep(3); return false;">
+        <span>👍💬 اضغط هنا وقم بعمل لايك وتعليق مميز للفيديو هذا</span>
+        <span id="check3" class="check">➡️</span>
+      </a>
+    </div>
 
-<div id="step4" class="step">
-  <a href="#" onclick="completeStep(4, 'https://www.youtube.com/@MRGAMESFFV2', 6); return false;">
-    <span>📺🔔 اضغط هنا وقم بالاشتراك في القناة 2 وتفعيل زر الجرس</span>
-    <span id="check4" class="check">➡️</span>
-  </a>
-</div>
+    <div id="step4" class="step">
+      <a href="#" onclick="completeStep(4, 'https://www.youtube.com/@mohammed-vip0'); return false;">
+        <span>📺🔔 اضغط هنا وقم بالاشتراك في القناة 3 وتفعيل زر الجرس</span>
+        <span id="check4" class="check">➡️</span>
+      </a>
+    </div>
 
     <div class="final-section">
       <div id="finalMessage" class="final-message">❌ نفّذ الخطوات أولاً لكي يتم فتح روابط التحميل</div>
@@ -422,58 +422,44 @@ a:hover { color: #ffd700; }
   <div id="copyPopup">تم نسخ الرابط بنجاح! 🎄</div>
 
   <script>
-
-    
     // باقي السكربت كما هو بدون تغيير أي وظائف
     document.getElementById("mainImage").addEventListener("contextmenu", function(e){ e.preventDefault(); });
 
     const STEP_EXPIRY_MS = 365 * 24 * 60 * 60 * 1000;
     const step3Links = ["https://youtu.be/OfP1CgXp6Bk"];
-
-    // تعريف مفاتيح منفصلة لكل خطوة
-    const step1StorageKey = "step1State_v1_unique79237247924792694692424";
-    const step2StorageKey = "step2State_v2_unique79237923792793279327932";
-    const step3StorageKey = "step3States_v7236253253723832323424242242_page8273263263623727837237";
-    const step4StorageKey = "step4States_v82372362326327328382382372";
+    const step3StorageKey = "step3States_v827e23626325362372382323232323_page7262632362372832832323";
+    const step4StorageKey = "step4States_v54566665_page55599955";
+    const stepsStateKey = "stepsState";
 
     function isStateExpired(savedState) { if(!savedState.timestamp) return true; return Date.now() - savedState.timestamp > STEP_EXPIRY_MS; }
 
-   window.onload = () => {
-      // جلب الحالات من التخزين المحلي
-      const s1 = JSON.parse(localStorage.getItem(step1StorageKey) || "{}");
-      const s2 = JSON.parse(localStorage.getItem(step2StorageKey) || "{}");
-      const s3 = JSON.parse(localStorage.getItem(step3StorageKey) || "{}");
-      const s4 = JSON.parse(localStorage.getItem(step4StorageKey) || "{}");
+    window.onload = () => {
+      const savedState = JSON.parse(localStorage.getItem(stepsStateKey) || "{}");
+      const step3State = JSON.parse(localStorage.getItem(step3StorageKey) || "{}");
+      const step4State = JSON.parse(localStorage.getItem(step4StorageKey) || "{}");
 
-      // التحقق من انتهاء الصلاحية لكل خطوة (اختياري)
-      if(isStateExpired(s1)) localStorage.removeItem(step1StorageKey);
-      if(isStateExpired(s2)) localStorage.removeItem(step2StorageKey);
-      if(isStateExpired(s3)) localStorage.removeItem(step3StorageKey);
-      if(isStateExpired(s4)) localStorage.removeItem(step4StorageKey);
-
-      // تطبيق الحالة على الخطوة 1
-      if(s1.completed){
-        document.getElementById("step1").classList.add("completed");
-        document.getElementById("check1").innerText="✅";
-        document.getElementById("step2").classList.add("active");
+      if(isStateExpired(savedState)){
+        localStorage.removeItem(stepsStateKey);
+        localStorage.removeItem(step3StorageKey);
+        localStorage.removeItem(step4StorageKey);
       }
 
-      // تطبيق الحالة على الخطوة 2
-      if(s2.completed){
-        document.getElementById("step2").classList.add("completed");
-        document.getElementById("check2").innerText="✅";
-        document.getElementById("step3").classList.add("active");
+      for(let i=1;i<=2;i++){
+        if(savedState["step"+i]){
+          document.getElementById("step"+i).classList.add("completed");
+          document.getElementById("check"+i).innerText="✅";
+          const nextStep=document.getElementById("step"+(i+1));
+          if(nextStep) nextStep.classList.add("active");
+        }
       }
 
-      // تطبيق الحالة على الخطوة 3
-      if(s3.completed){
+      if(savedState.step2) document.getElementById("step3").classList.add("active");
+      if(step3State.completed){
         document.getElementById("step3").classList.add("completed");
         document.getElementById("check3").innerText="✅";
         document.getElementById("step4").classList.add("active");
       }
-
-      // تطبيق الحالة على الخطوة 4
-      if(s4.completed){
+      if(step4State.completed){
         document.getElementById("step4").classList.add("completed");
         document.getElementById("check4").innerText="✅";
       }
@@ -481,15 +467,14 @@ a:hover { color: #ffd700; }
       unlockButtons();
       updateProgressBar();
 
-      // التمرير لأول خطوة غير مكتملة
-      let firstIncomplete = null;
-      for(let i=1; i<=4; i++){
+      let firstIncomplete=null;
+      for(let i=1;i<=4;i++){
         if(!document.getElementById("step"+i).classList.contains("completed")){
-          firstIncomplete = document.getElementById("step"+i);
+          firstIncomplete=document.getElementById("step"+i);
           break;
         }
       }
-      if(firstIncomplete){ setTimeout(()=>{ firstIncomplete.scrollIntoView({behavior:"smooth", block:"center"}); }, 600); }
+      if(firstIncomplete){ setTimeout(()=>{ firstIncomplete.scrollIntoView({behavior:"smooth", block:"center"}); },600); }
     };
 
     function saveStepState(step){
@@ -499,56 +484,52 @@ a:hover { color: #ffd700; }
       localStorage.setItem(stepsStateKey, JSON.stringify(current));
     }
 
-   function completeStep(step, url = null, seconds = 10) {
-      const check = document.getElementById("check" + step);
-      const stepElement = document.getElementById("step" + step);
-      const alreadyCompleted = stepElement.classList.contains("completed");
+    function completeStep(step, url = null) {
+  const check = document.getElementById("check" + step);
+  const stepElement = document.getElementById("step" + step);
+  const alreadyCompleted = stepElement.classList.contains("completed");
 
-      // فتح الروابط
-      if (step === 3) {
-        const selected = step3Links[Math.floor(Math.random() * step3Links.length)];
-        window.open(selected, "_blank");
-      } else if (url) {
-        window.open(url, "_blank");
-      }
+  if (step === 3) {
+    const selected = step3Links[Math.floor(Math.random() * step3Links.length)];
+    window.open(selected, "_blank");
+  } else if (url) {
+    window.open(url, "_blank");
+  }
 
-      if (alreadyCompleted) return;
+  if (alreadyCompleted) return;
 
-      check.innerHTML = '<span class="loading"></span>';
+  // عرض الـ spinner
+  check.innerHTML = '<span class="loading"></span>';
 
-      setTimeout(() => {
-        stepElement.classList.add("completed");
-        check.innerText = "✅";
+  // بعد 10 ثواني اكتمال الخطوة
+  setTimeout(() => {
+    stepElement.classList.add("completed");
+    check.innerText = "✅";
 
-        let nextStep = null;
-        const now = Date.now();
+    let nextStep = null;
 
-        // تخزين الحالة بناءً على رقم الخطوة في مفتاحها الخاص
-        if (step === 1) {
-          localStorage.setItem(step1StorageKey, JSON.stringify({ completed: true, timestamp: now }));
-          nextStep = document.getElementById("step2");
-        } else if (step === 2) {
-          localStorage.setItem(step2StorageKey, JSON.stringify({ completed: true, timestamp: now }));
-          nextStep = document.getElementById("step3");
-        } else if (step === 3) {
-          localStorage.setItem(step3StorageKey, JSON.stringify({ completed: true, timestamp: now }));
-          nextStep = document.getElementById("step4");
-        } else if (step === 4) {
-          localStorage.setItem(step4StorageKey, JSON.stringify({ completed: true, timestamp: now }));
-        }
-
-        if (nextStep) nextStep.classList.add("active");
-
-        unlockButtons();
-        updateProgressBar();
-
-        if (nextStep) {
-          setTimeout(() => {
-            nextStep.scrollIntoView({ behavior: "smooth", block: "center" });
-          }, 500);
-        }
-      }, seconds * 1000);
+    if (step === 3) {
+      localStorage.setItem(step3StorageKey, JSON.stringify({ completed: true, timestamp: Date.now() }));
+      nextStep = document.getElementById("step4");
+      if (nextStep) nextStep.classList.add("active");
+    } else if (step === 4) {
+      localStorage.setItem(step4StorageKey, JSON.stringify({ completed: true, timestamp: Date.now() }));
+    } else {
+      saveStepState(step);
+      nextStep = document.getElementById("step" + (step + 1));
+      if (nextStep) nextStep.classList.add("active");
     }
+
+    unlockButtons();
+    updateProgressBar();
+
+    if (nextStep) {
+      setTimeout(() => {
+        nextStep.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 500);
+    }
+  }, 10000); // 10 ثواني
+}
 
 
     function unlockButtons(){
