@@ -592,7 +592,7 @@ a:hover { color: #ffd700; }
         activeVerifications[step] = false;
     }
 
-    function completeStep(step, url = null) {
+   function completeStep(step, url = null) {
   const stepElement = document.getElementById("step" + step);
   const check = document.getElementById("check" + step);
 
@@ -624,30 +624,30 @@ a:hover { color: #ffd700; }
 
   // --- هنا تم الفصل بين الخطوات ---
   let config = {
-    required: 0, 
-    blocking: 0, 
-    msg: ""      
+    required: 0,
+    blocking: 0,
+    msg: ""
   };
 
-  if (step === 1) { // اشتراك القناة الأولى
+  if (step === 1) {
     config.required = 8;
     config.blocking = 4;
     config.msg = "⚠️ عذراً، يجب عليك الاشتراك في القناة 1 وتفعيل الجرس لكي يتم تنفيذ الشرط.\n" +
          "ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــ\n" +
          "💡ملحوظة:\n" +
          "اذا كنت بالفعل مشترك في القناة 1 , فقط قم بالضغط علي الزر مجددا ومن ثم قم بالانتظار 6 ثواني ومن ثم ارجع لصفحة الشروط مجددا.";
-  } 
-  else if (step === 2) { // مشاهدة الفيديو
-    config.required = 35; 
+  }
+  else if (step === 2) {
+    config.required = 35;
     config.blocking = 8;
     config.msg = "عذراً، يجب عليك مشاهدة الفيديو كاملاً أولاً لكي يتم تنفيذ الشرط.";
-  } 
-  else if (step === 3) { // لايك وتعليق
+  }
+  else if (step === 3) {
     config.required = 12;
     config.blocking = 7;
     config.msg = "عذراً، يجب عليك عمل لايك وتعليق مميز أولاً لكي يتم تنفيذ الشرط.";
   }
-  else if (step === 4) { // اشتراك القناة الثانية
+  else if (step === 4) {
     config.required = 8;
     config.blocking = 4;
     config.msg = "⚠️ عذراً، يجب عليك الاشتراك في القناة 2 وتفعيل الجرس لكي يتم تنفيذ الشرط.\n" +
@@ -657,65 +657,50 @@ a:hover { color: #ffd700; }
   }
   // ------------------------------------
 
-  // حماية ضد النداءات المزدوجة
-  let finished = false;
-  let finishTimer = null;
-  let fallbackTimer = null;
-
+  // دوال الاستماع (نستخدم نفس المنطق لكل حدث ونزيل المستمعين بعد العمل)
   const cleanup = () => {
-    if (finished) return;
-    finished = true;
-    activeVerifications[step] = false;
-    window.removeEventListener('focus', onFocusVerify);
-    document.removeEventListener('visibilitychange', onVisibilityVerify);
-    if (finishTimer) { clearTimeout(finishTimer); finishTimer = null; }
-    if (fallbackTimer) { clearTimeout(fallbackTimer); fallbackTimer = null; }
+    window.removeEventListener('focus', onReturn);
+    document.removeEventListener('visibilitychange', onVisibility);
+    window.removeEventListener('pageshow', onPageShow);
   };
 
-  const handleProc = (elapsedSeconds) => {
+  const onReturn = () => {
+    cleanup();
+    const elapsedSeconds = (Date.now() - timeAtClick) / 1000;
+
     if (elapsedSeconds < config.blocking) {
-      showCustomAlert(config.msg);
-      check.innerText = "➡️";
-      cleanup();
-    } else if (elapsedSeconds < config.required) {
-      const remainingMs = (config.required - elapsedSeconds) * 1000;
-      // ننتظر بقيّة الزمن ثم نكمل
-      finishTimer = setTimeout(() => {
+        showCustomAlert(config.msg);
+        check.innerText = "➡️";
+        activeVerifications[step] = false;
+        return;
+    } 
+    else if (elapsedSeconds < config.required) {
+        const remainingTimeMs = (config.required - elapsedSeconds) * 1000;
+        // ننتظر المتبقي ثم نكمل
+        setTimeout(() => {
+            finishStep(step);
+        }, remainingTimeMs);
+    } 
+    else {
         finishStep(step);
-        cleanup();
-      }, remainingMs + 50);
-    } else {
-      finishStep(step);
-      cleanup();
     }
   };
 
-  const onFocusVerify = () => {
-    try {
-      const elapsedSeconds = (Date.now() - timeAtClick) / 1000;
-      handleProc(elapsedSeconds);
-    } catch (e) { cleanup(); }
-  };
-
-  const onVisibilityVerify = () => {
-    try {
-      if (!document.hidden) {
-        const elapsedSeconds = (Date.now() - timeAtClick) / 1000;
-        handleProc(elapsedSeconds);
-      }
-    } catch (e) { cleanup(); }
-  };
-
-  window.addEventListener('focus', onFocusVerify);
-  document.addEventListener('visibilitychange', onVisibilityVerify);
-
-  // فاليباك: إذا لم يرجع المستخدم ولم تُطلق أي أحداث، نكمل تلقائياً بعد required ثانية + هامش صغير
-  fallbackTimer = setTimeout(() => {
-    if (!finished) {
-      finishStep(step);
-      cleanup();
+  const onVisibility = () => {
+    if (document.visibilityState === 'visible') {
+      onReturn();
     }
-  }, (config.required + 0.5) * 1000);
+  };
+
+  const onPageShow = (ev) => {
+    // pageshow يحدث عند العودة من التبويب أو بعد history navigation
+    onReturn();
+  };
+
+  // نضيف المستمعين
+  window.addEventListener('focus', onReturn);
+  document.addEventListener('visibilitychange', onVisibility);
+  window.addEventListener('pageshow', onPageShow);
 }
 
 
